@@ -779,6 +779,10 @@ input[type="radio"] {
     color: rgb(121, 85, 72);
 }
 
+.desc.fz-30 {
+    font-size: var(--fz-30);
+}
+
 
 
 canvas {
@@ -935,7 +939,7 @@ canvas {
     opacity: 1;
 }
 
-#toast-container>div{
+#toast-container>div {
     display: block;
     opacity: 1;
     background-image: none !important;
@@ -947,6 +951,20 @@ canvas {
     background-position-y: 9px;
 }
 
-#toast-container>div:hover{
+#toast-container>div:hover {
     border: 0;
+}
+
+
+@media only screen and (max-width: 600px) {
+    iframe {
+        width: 100%;
+        display: block;
+    }
+    .img-top {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
 }
