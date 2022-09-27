@@ -14,7 +14,7 @@ $(document).ready(function () {
         // go Buckeyes!
         var colors = ['#FFCDD2', '#F8BBD0', '#D1C4E9'];
         var shapes = ['circle', 'circle', 'square'];
-        var ticks  = 50;
+        var ticks = 50;
         confetti({
             particleCount: 1,
             startVelocity: 0,
@@ -68,35 +68,64 @@ $(document).ready(function () {
         }
     }());
 
+    // fullpage customization
+    // $('#main').fullpage({
+    //     // licenseKey: 'gplv3-license',
+    //     // sectionsColor: ['#efebe9', '#212121', '#F2AE72', '#5C832F', '#B8B89F'],
+    //     sectionSelector: '.section-scrolling',
+    //     autoScrolling: false,
+    //     fitToSection: false,
+    //     verticalCentered: true,
+    //     anchors: ['anchor1', 'anchor2', 'anchor3'],
+    // });
+
+
+    const lightbox = new PhotoSwipeLightbox({
+        gallery: '#gallery--no-dynamic-import',
+        children: 'a',
+        pswpModule: PhotoSwipe
+    });
+
+    lightbox.init();
+
+    toastr.options = {
+        "newestOnTop": true,
+        "positionClass": "toast-top-center",
+    }
+
+    var clipboard = new ClipboardJS('.btn-copy', {
+        container: document.getElementById('exampleModal')
+    });
+
+    clipboard.on('success', function (e) {
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        toastr.success("SKT: " + e.text, "Đã copy!");
+        setTimeout(() => {
+            toastr.clear()
+        }, 1000);
+        e.clearSelection();
+    });
+
 });
 
+function reveal() {
+    var reveals = document.querySelectorAll(".section");
 
-$(window).scroll(function() {
-  
-    // selectors
-    var $window = $(window),
-        $body = $('body'),
-        $panel = $('.section');
-    
-    // Change 33% earlier than scroll position so colour is there when you arrive.
-    var scroll = $window.scrollTop() + ($window.height() / 3);
-   
-    $panel.each(function () {
-      var $this = $(this);
-      
-      // if position is within range of this panel.
-      // So position of (position of top of div <= scroll position) && (position of bottom of div > scroll position).
-      // Remember we set the scroll to 33% earlier in scroll var.
-      if ($this.position().top <= scroll && $this.position().top + $this.height() > scroll) {
-            
-        // Remove all classes on body with color-
-        $body.removeClass(function (index, css) {
-          return (css.match (/(^|\s)color-\S+/g) || []).join(' ');
-        });
-         
-        // Add class of currently active div
-        $body.addClass('color-' + $(this).data('color'));
-      }
-    });    
-    
-  }).scroll();
+    for (var i = 0; i < reveals.length; i++) {
+        var windowHeight = window.innerHeight;
+        var elementTop = reveals[i].getBoundingClientRect().top;
+        var elementVisible = 150;
+
+        if (elementTop < windowHeight - elementVisible) {
+            reveals[i].classList.add("active");
+        } else {
+            reveals[i].classList.remove("active");
+        }
+    }
+}
+
+window.addEventListener("scroll", reveal);
+
+
